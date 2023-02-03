@@ -1,15 +1,16 @@
-const Hapi = require('@hapi/hapi');
- 
- 
-const init = async () => {
+const Hapi = require('@hapi/hapi')
+const { HOST, PORT } = require('./config/config')
+const routers = require('./router/routers')
+
+const runServer = async () => {
   const server = Hapi.server({
-    port: 9000,
-    host: 'localhost',
-  });
- 
- 
-  await server.start();
-  console.log(`Server berjalan pada ${server.info.uri}`);
-};
- 
-init();
+    port: PORT,
+    host: HOST
+  })
+
+  server.route(routers)
+  await server.start()
+  console.log(`Server Running...:${server.info.uri}`)
+}
+
+runServer()
